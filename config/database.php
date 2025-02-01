@@ -16,7 +16,7 @@ return [
     |
     */
 
-    'default' => env('DB_CONNECTION', 'pgsql'),
+    'default' => getenv('DB_CONNECTION', 'pgsql'),
 
     /*
     |--------------------------------------------------------------------------
@@ -84,13 +84,13 @@ return [
 
         'pgsql' => [
             'driver' => 'pgsql',
-            'url' => 'postgres://u4thsge1prld5h:p6a77fa58f6064c1f605fbe4e8ec94b304752c2e90e20844e6edaa04d927456ec@c6sfjnr30ch74e.cluster-czrs8kj4isg7.us-east-1.rds.amazonaws.com:5432/d9t1gjjgv9nrka',
-            'host' => 'c6sfjnr30ch74e.cluster-czrs8kj4isg7.us-east-1.rds.amazonaws.com',
-            'port' => '5432',
-            'database' => 'd9t1gjjgv9nrka',
-            'username' => 'u4thsge1prld5h',
-            'password' => 'p6a77fa58f6064c1f605fbe4e8ec94b304752c2e90e20844e6edaa04d927456ec',
-            'charset' => env('DB_CHARSET', 'utf8'),
+            'url' => getenv('DATABASE_URL'),
+            'host' => getenv('DB_HOST', '127.0.0.1'),
+            'port' => getenv('DB_PORT', '5432'),
+            'database' => getenv('DB_DATABASE', 'laravel'),
+            'username' => getenv('DB_USERNAME', 'root'),
+            'password' => getenv('DB_PASSWORD', ''),
+            'charset' => getenv('DB_CHARSET', 'utf8'),
             'prefix' => '',
             'prefix_indexes' => true,
             'search_path' => 'public',
