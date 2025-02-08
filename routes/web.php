@@ -11,6 +11,9 @@ use Illuminate\Http\Request;
 use Cowsayphp\Farm;
 
 Route::get('/', [HomeController::class, 'welcome']);
+Route::get('/marc', function () {
+   echo '<h1>marc</h1>';
+});
 Route::resource('jobs', JobController::class);
 
 //Route::get('/jobs', [JobController::class, 'index']);
