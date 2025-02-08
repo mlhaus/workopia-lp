@@ -20,10 +20,10 @@ class AppServiceProvider extends ServiceProvider
      */
     public function boot(): void
     {
-        Route::pattern('id', '[0-9]+');
-//        Route::prefix('')
-//            ->middleware('web')
+        Route::prefix('')
+            ->middleware('web')
 //            ->namespace($this->namespace)
-//            ->group(base_path('routes/web.php'));
+            ->group(base_path('routes/web.php'));
+        Route::pattern('id', '[0-9]+');
     }
 }
