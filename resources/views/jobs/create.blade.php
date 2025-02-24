@@ -1,12 +1,5 @@
-<!DOCTYPE html>
-<html lang="en">
-<head>
-    <meta charset="UTF-8" />
-    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    <title>Create Job</title>
-</head>
-
-<body>
+<x-workopia-layout>
+<x-slot name="title">Create a New Job</x-slot>
 <h1>Create Job</h1>
 <form action="/jobs" method="POST">
     @csrf
@@ -14,5 +7,4 @@
     <input type="text" name="description" placeholder="Description" />
     <button type="submit">Submit</button>
 </form>
-</body>
-</html>
+</x-workopia-layout>

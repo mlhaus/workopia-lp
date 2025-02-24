@@ -1,13 +1,5 @@
-<!DOCTYPE html>
-<html lang="en">
-<head>
-    <meta charset="UTF-8" />
-    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    <title>{{$title}}</title>
-</head>
-
-<body>
-<h1>{{$title}}</h1>
+<x-workopia-layout>
+<x-slot name="title">View all Jobs</x-slot>
 <ul>
     @forelse($jobs as $job)
         <li>{{ $job }}</li>
@@ -15,5 +7,4 @@
         <li>No Jobs Found</li>
     @endforelse
 </ul>
-</body>
-</html>
+</x-workopia-layout>
