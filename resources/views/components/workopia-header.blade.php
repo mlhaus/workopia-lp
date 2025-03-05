@@ -10,7 +10,7 @@
             <x-workopia-nav-link :active="request()->is('login')" url="/login">Login</x-workopia-nav-link>
             <x-workopia-nav-link :active="request()->is('register')" url="/register">Register</x-workopia-nav-link>
             <x-workopia-nav-link :active="request()->is('dashboard')" url="/dashboard" icon="user-edit">Edit Profile</x-workopia-nav-link>
-            <x-workopia-button-link url="/jobs/create" icon="edit" btnColor="red">Create Job</x-workopia-button-link>
+            <x-workopia-button-link url="/jobs/create" icon="edit">Create job</x-workopia-button-link>
         </nav>
         <button id="hamburger" class="text-white md:hidden flex items-center">
             <i class="fa fa-bars text-2xl"></i>
