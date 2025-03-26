@@ -22,7 +22,8 @@ class JobController extends Controller
     // @route  GET /jobs/create
     public function create(): View
     {
-        return view('jobs.create');
+        $title = 'Create New Job';
+        return view('jobs.create', compact('title'));
     }
 
     // @desc   Store a new job
@@ -32,14 +33,27 @@ class JobController extends Controller
         $validatedData = $request->validate([
             'title' => 'required|string|max:255',
             'description' => 'required|string',
-        ]);
+            'salary' => 'required|integer',
+            'requirements' => 'nullable|string',
+            'benefits' => 'nullable|string',
+            'tags' => 'nullable|string|max:255',
+            'job_type' => 'required|string',
+            'remote' => 'required|boolean',
 
-        Job::create([
-            'title' => $validatedData["title"],
-            'description' => $validatedData["description"]
+            'address' => 'nullable|string|max:255',
+            'city' => 'required|string|max:255',
+            'state' => 'required|string|max:255',
+            'zipcode' => 'required|string|max:255',
+            'company_name' => 'required|string|max:255',
+            'company_description' => 'nullable|string',
+            'company_website' => 'nullable|url|max:255',
+            'contact_phone' => 'nullable|string|max:255',
+            'contact_email' => 'required|email|max:255',
+            'company_logo' => 'nullable|image|mimes:jpeg,png,jpg,gif|max:2048',
         ]);
-
-        return redirect()->route('jobs.index');
+        $validatedData['user_id'] = 1;
+        Job::create($validatedData);
+        return redirect()->route('jobs.index')->with('success', 'Job listing created successfully!');
     }
 
     // @desc   Show a single job
