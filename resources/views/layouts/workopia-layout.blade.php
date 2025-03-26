@@ -16,7 +16,7 @@
     <x-workopia-hero />
     <x-workopia-top-banner />
 @endif
-<main class="container mx-auto mt-4">
+<main class="container mx-auto mt-6 max-w-screen-xl px-4">
     {{ $slot }}
 </main>
 <x-workopia-bottom-banner />

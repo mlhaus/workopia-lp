@@ -2,6 +2,7 @@
 
 namespace Database\Seeders;
 
+use Carbon\Carbon;
 use Illuminate\Database\Console\Seeds\WithoutModelEvents;
 use Illuminate\Database\Seeder;
 use Illuminate\Support\Facades\DB;
@@ -20,9 +21,19 @@ class JobSeeder extends Seeder
         // Get all user IDs
         $userIds = User::pluck('id')->toArray();
 
+        // Initialize timestamp
+        $timestamp = Carbon::now()->subDays(1); // One day ago
+
         foreach ($jobListings as &$listing) {
             // Assign a random user_id to each job listing
             $listing['user_id'] = $userIds[array_rand($userIds)];
+
+            // Assign sequential timestamps
+            $listing['created_at'] = $timestamp->copy();
+            $listing['updated_at'] = $timestamp->copy();
+
+            // Increment timestamp for next record
+            $timestamp->addMinutes(30);
         }
 
         // Insert job listings

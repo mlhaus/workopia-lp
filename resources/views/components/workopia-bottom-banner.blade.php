@@ -6,7 +6,7 @@
     'btnIcon' => 'edit',
     'btnColor' => 'yellow'
  ])
-<section class="container mx-auto my-6">
+<section class="container mx-auto my-6 max-w-screen-xl px-4">
     <div
         class="bg-blue-800 text-white rounded p-4 flex items-center justify-between"
     >

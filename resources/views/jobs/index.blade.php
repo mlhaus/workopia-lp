@@ -1,10 +1,11 @@
 <x-workopia-layout>
-<x-slot name="title">View all Jobs</x-slot>
-<ul>
+<x-slot name="title">{{ $title }}</x-slot>
+<h2 class="text-2xl">{{ $title }}</h2>
+<div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-4 my-6">
     @forelse($jobs as $job)
-        <li><a href="{{ route('jobs.show', $job->id) }}">{{ $job->title }}</a></li>
+        <x-job-card :job="$job"></x-job-card>
     @empty
-        <li>No Jobs Found</li>
+        <p>No Jobs Found</p>
     @endforelse
-</ul>
+</div>
 </x-workopia-layout>
