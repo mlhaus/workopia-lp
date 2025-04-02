@@ -5,6 +5,7 @@ namespace App\Http\Controllers;
 use App\Models\Job;
 use Illuminate\Http\RedirectResponse;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Storage;
 use Illuminate\View\View;
 
 class JobController extends Controller
@@ -43,7 +44,7 @@ class JobController extends Controller
             'address' => 'nullable|string|max:255',
             'city' => 'required|string|max:255',
             'state' => 'required|string|max:255',
-            'zipcode' => 'required|string|max:255',
+            'zipcode' => 'nullable|string|max:255',
             'company_name' => 'required|string|max:255',
             'company_description' => 'nullable|string',
             'company_website' => 'nullable|url|max:255',
@@ -51,6 +52,13 @@ class JobController extends Controller
             'contact_email' => 'required|email|max:255',
             'company_logo' => 'nullable|image|mimes:jpeg,png,jpg,gif|max:2048',
         ]);
+        if ($request->hasFile('company_logo')) {
+            // Store the file and get the path
+            $path = $request->file('company_logo')->store('logos', 'public');
+
+            // Add the path to the validated data array
+            $validatedData['company_logo'] = $path;
+        }
         $validatedData['user_id'] = 1;
         Job::create($validatedData);
         return redirect()->route('jobs.index')->with('success', 'Job listing created successfully!');
@@ -60,21 +68,57 @@ class JobController extends Controller
     // @route  GET /jobs/{id}
     public function show(Job $job): View
     {
-        return view('jobs.show', compact('job'));
+        $title = 'View Single Job';
+        return view('jobs.show', compact('job', 'title'));
     }
 
     // @desc   Show the form for editing a job
     // @route  GET /jobs/{id}/edit
-    public function edit(string $id): string
+    public function edit(Job $job): View
     {
-        return "Edit job $id";
+        $title = 'Edit Single Job';
+        return view('jobs.edit', compact('job', 'title'));
     }
 
     // @desc   Update a job
     // @route  PUT /jobs/{id}
-    public function update(Request $request, string $id): string
+    public function update(Request $request, Job $job): View
     {
-        return "Update job $id";
+        $validatedData = $request->validate([
+            'title' => 'required|string|max:255',
+            'description' => 'required|string',
+            'salary' => 'required|integer',
+            'requirements' => 'nullable|string',
+            'benefits' => 'nullable|string',
+            'tags' => 'nullable|string|max:255',
+            'job_type' => 'required|string',
+            'remote' => 'required|boolean',
+
+            'address' => 'nullable|string|max:255',
+            'city' => 'required|string|max:255',
+            'state' => 'required|string|max:255',
+            'zipcode' => 'nullable|string|max:255',
+            'company_name' => 'required|string|max:255',
+            'company_description' => 'nullable|string',
+            'company_website' => 'nullable|url|max:255',
+            'contact_phone' => 'nullable|string|max:255',
+            'contact_email' => 'required|email|max:255',
+            'company_logo' => 'nullable|image|mimes:jpeg,png,jpg,gif|max:2048',
+        ]);
+        // Check if a file was uploaded
+        if ($request->hasFile('company_logo')) {
+            // Delete the old company logo from storage
+            if ($job->company_logo && Storage::disk('public')->exists($job->company_logo)) {
+                Storage::disk('public')->delete($job->company_logo);
+            }
+            // Store the file and get the path
+            $path = $request->file('company_logo')->store('logos', 'public');
+
+            // Add the path to the validated data array
+            $validatedData['company_logo'] = $path;
+        }
+        $job->update($validatedData);
+        return redirect()->route('jobs.show', $job->id)->with('success', 'Job listing updated successfully!');
     }
 
     // @desc  Delete a job
