@@ -8,7 +8,7 @@
     <script src="https://cdn.tailwindcss.com"></script>
     <script defer src="https://cdn.jsdelivr.net/npm/alpinejs@3.14.8/dist/cdn.min.js"></script>
     <script defer src="{{ asset('js/scripts.js') }}"></script>
-    <title>{{ $title }}</title>
+    <title>Workopia {{ isset($title) && $title ? '| ' . $title : '' }}</title>
 </head>
 
 <body class="bg-gray-100">

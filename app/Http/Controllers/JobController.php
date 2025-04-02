@@ -59,7 +59,7 @@ class JobController extends Controller
             // Add the path to the validated data array
             $validatedData['company_logo'] = $path;
         }
-        $validatedData['user_id'] = 1;
+        $validatedData['user_id'] = 1; // Change to the current logged in user
         Job::create($validatedData);
         return redirect()->route('jobs.index')->with('success', 'Job listing created successfully!');
     }
@@ -82,7 +82,7 @@ class JobController extends Controller
 
     // @desc   Update a job
     // @route  PUT /jobs/{id}
-    public function update(Request $request, Job $job): View
+    public function update(Request $request, Job $job): RedirectResponse
     {
         $validatedData = $request->validate([
             'title' => 'required|string|max:255',
@@ -123,8 +123,12 @@ class JobController extends Controller
 
     // @desc  Delete a job
     // @route DELETE /jobs/{id}
-    public function destroy(string $id): string
+    public function destroy(Job $job): RedirectResponse
     {
-        return "Delete job $id";
+        if ($job->company_logo && Storage::disk('public')->exists($job->company_logo)) {
+            Storage::disk('public')->delete($job->company_logo);
+        }
+        $job->delete();
+        return redirect()->route('jobs.index')->with('success', 'Job listing deleted successfully!');
     }
 }
