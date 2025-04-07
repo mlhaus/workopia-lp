@@ -5,6 +5,7 @@ namespace App\Http\Controllers;
 use App\Models\Job;
 use Illuminate\Http\RedirectResponse;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Storage;
 use Illuminate\View\View;
 
@@ -21,8 +22,12 @@ class JobController extends Controller
 
     // @desc   Show create job form
     // @route  GET /jobs/create
-    public function create(): View
+    public function create(): View | RedirectResponse
     {
+//        if(!Auth::check()){
+//            abort(404);
+//            return redirect()->route('login')->with('error', 'You must be logged in to create jobs.');
+//        }
         $title = 'Create New Job';
         return view('jobs.create', compact('title'));
     }
