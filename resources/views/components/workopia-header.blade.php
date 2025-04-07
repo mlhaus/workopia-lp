@@ -6,11 +6,20 @@
         <nav class="hidden md:flex items-center space-x-4">
             <x-workopia-nav-link :active="request()->is('/')" icon="home">Home</x-workopia-nav-link>
             <x-workopia-nav-link :active="request()->is('jobs')" url="/jobs" icon="briefcase">All Jobs</x-workopia-nav-link>
-            <x-workopia-nav-link :active="request()->is('jobs/saved')" url="/jobs/saved">Saved Jobs</x-workopia-nav-link>
-            <x-workopia-nav-link :active="request()->is('login')" url="/login">Login</x-workopia-nav-link>
-            <x-workopia-nav-link :active="request()->is('register')" url="/register">Register</x-workopia-nav-link>
-            <x-workopia-nav-link :active="request()->is('dashboard')" url="/dashboard" icon="user-edit">Edit Profile</x-workopia-nav-link>
-            <x-workopia-button-link url="/jobs/create" icon="edit">Create job</x-workopia-button-link>
+            @auth
+                <x-workopia-nav-link :active="request()->is('jobs/saved')" url="/jobs/saved">Saved Jobs</x-workopia-nav-link>
+                <x-workopia-nav-link :active="request()->is('dashboard')" url="/dashboard" icon="user-edit">Edit Profile</x-workopia-nav-link>
+                <form method="POST" action="{{ route('logout') }}">
+                    @csrf
+                    <button type="submit" class="hover:underline">
+                        <i class="fa fa-sign-out"></i> Logout
+                    </button>
+                </form>
+                <x-workopia-button-link url="/jobs/create" icon="edit">Create job</x-workopia-button-link>
+            @else
+                <x-workopia-nav-link :active="request()->is('login')" url="/login">Login</x-workopia-nav-link>
+                <x-workopia-nav-link :active="request()->is('register')" url="/register">Register</x-workopia-nav-link>
+            @endauth
         </nav>
         <button @click="open = !open" class="text-white md:hidden flex items-center">
             <i class="fa fa-bars text-2xl"></i>
@@ -25,15 +34,19 @@
     >
         <x-workopia-nav-link :active="request()->is('/')" :mobile="true">Home</x-workopia-nav-link>
         <x-workopia-nav-link :active="request()->is('jobs')" url="/jobs" :mobile="true">All Jobs</x-workopia-nav-link>
-        <x-workopia-nav-link :active="request()->is('jobs/saved')" url="/jobs/saved" :mobile="true">Saved Jobs</x-workopia-nav-link>
-        <x-workopia-nav-link :active="request()->is('login')" url="/login" :mobile="true">Login</x-workopia-nav-link>
-        <x-workopia-nav-link :active="request()->is('register')" url="/register" :mobile="true">Register</x-workopia-nav-link>
-        <x-workopia-nav-link :active="request()->is('dashboard')" url="/dashboard" icon="user-edit" :mobile="true">Edit Profile</x-workopia-nav-link>
-        <a
-            href="{{ url('/jobs/create') }}"
-            class="block px-4 py-2 bg-yellow-500 hover:bg-yellow-600 text-black"
-        >
-            <i class="fa fa-edit"></i> Create Job
-        </a>
+        @auth
+            <x-workopia-nav-link :active="request()->is('jobs/saved')" url="/jobs/saved" :mobile="true">Saved Jobs</x-workopia-nav-link>
+            <x-workopia-nav-link :active="request()->is('dashboard')" url="/dashboard" icon="user-edit" :mobile="true">Edit Profile</x-workopia-nav-link>
+            <form method="POST" action="{{ route('logout') }}">
+                @csrf
+                <button type="submit" class="hover:bg-blue-700 px-4 py-2 block w-full text-left">
+                    <i class="fa fa-sign-out"></i> Logout
+                </button>
+            </form>
+            <x-workopia-button-link url="{{ url('/jobs/create') }}" icon="edit" :mobile="true">Create Job</x-workopia-button-link>
+        @else
+            <x-workopia-nav-link :active="request()->is('login')" url="/login" :mobile="true">Login</x-workopia-nav-link>
+            <x-workopia-nav-link :active="request()->is('register')" url="/register" :mobile="true">Register</x-workopia-nav-link>
+        @endauth
     </div>
 </header>
