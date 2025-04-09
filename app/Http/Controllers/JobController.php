@@ -8,9 +8,12 @@ use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Storage;
 use Illuminate\View\View;
+use Illuminate\Foundation\Auth\Access\AuthorizesRequests;
 
 class JobController extends Controller
 {
+    use AuthorizesRequests;
+
     // @desc   Show all jobs
     // @route  GET /jobs
     public function index(): View
@@ -64,7 +67,7 @@ class JobController extends Controller
             // Add the path to the validated data array
             $validatedData['company_logo'] = $path;
         }
-        $validatedData['user_id'] = 1; // Change to the current logged in user
+        $validatedData['user_id'] = auth()->user()->id;
         Job::create($validatedData);
         return redirect()->route('jobs.index')->with('success', 'Job listing created successfully!');
     }
@@ -81,6 +84,9 @@ class JobController extends Controller
     // @route  GET /jobs/{id}/edit
     public function edit(Job $job): View
     {
+        // Check if the user is authorized
+        $this->authorize('update', $job);
+        
         $title = 'Edit Single Job';
         return view('jobs.edit', compact('job', 'title'));
     }
@@ -89,6 +95,9 @@ class JobController extends Controller
     // @route  PUT /jobs/{id}
     public function update(Request $request, Job $job): RedirectResponse
     {
+        // Check if the user is authorized
+        $this->authorize('update', $job);
+
         $validatedData = $request->validate([
             'title' => 'required|string|max:255',
             'description' => 'required|string',
@@ -130,6 +139,9 @@ class JobController extends Controller
     // @route DELETE /jobs/{id}
     public function destroy(Job $job): RedirectResponse
     {
+        // Check if the user is authorized
+        $this->authorize('delete', $job);
+
         if ($job->company_logo && Storage::disk('public')->exists($job->company_logo)) {
             Storage::disk('public')->delete($job->company_logo);
         }

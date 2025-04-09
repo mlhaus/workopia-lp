@@ -9,13 +9,14 @@
                         Back To Listings
                     </a>
                     <div class="flex space-x-3 ml-4">
+                        @can('update', $job)
                         <a
                             href="{{route('jobs.edit', $job->id)}}"
                             class="px-4 py-2 bg-blue-500 hover:bg-blue-600 text-white rounded"
                         >Edit</a
                         >
                         <!-- Delete Form -->
-                        <form method="POST" 
+                        <form method="POST"
                               action="{{ route('jobs.destroy', $job) }}"
                               onsubmit="return confirm('Are you sure you want to delete this job?')"
                         
@@ -30,6 +31,7 @@
                             </button>
                         </form>
                         <!-- End Delete Form -->
+                        @endcan
                     </div>
                 </div>
                 <div class="p-4">
