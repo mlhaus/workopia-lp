@@ -18,15 +18,23 @@ class JobSeeder extends Seeder
         // Load job listings data
         $jobListings = include database_path('seeders/data/job_listings.php');
 
-        // Get all user IDs
-        $userIds = User::pluck('id')->toArray();
+        // Get the ID of the test user (see TestUserSeeder)
+        $testUserId = User::where('email', 'marc.hauschildt@kirkwood.edu')->value('id');
+
+        // Get all other user IDs from the RandomUserSeeder
+        $userIds = User::where('email', '!=', 'marc.hauschildt@kirkwood.edu')->pluck('id')->toArray();
 
         // Initialize timestamp
         $timestamp = Carbon::now()->subDays(1); // One day ago
 
-        foreach ($jobListings as &$listing) {
-            // Assign a random user_id to each job listing
-            $listing['user_id'] = $userIds[array_rand($userIds)];
+        foreach ($jobListings as $index => &$listing) {
+            if($index < 2) {
+                // Assign the first two jobs to the test user
+                $listing['user_id'] = $testUserId;
+            } else {
+                // Assign a random user_id to each job listing
+                $listing['user_id'] = $userIds[array_rand($userIds)];
+            }
 
             // Assign sequential timestamps
             $listing['created_at'] = $timestamp->copy();
