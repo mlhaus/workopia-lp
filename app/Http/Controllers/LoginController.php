@@ -29,14 +29,19 @@ class LoginController extends Controller
         ]);
         if(Auth::attempt($validatedData)) {
             $request->session()->regenerate();
-            return redirect()->route('home')->with('success', 'You are logged in.');
+//            return redirect()->route('home')->with('success', 'You are logged in.');
+            // To redirect users back to their originally requested route after logging in,
+            // you can use Laravel's intended redirect feature. Laravel stores the
+            // intended URL in the session when an unauthorized user is redirected to the
+            // login page (this happens automatically if you're using Laravel's authentication middleware).
+            return redirect()->intended(route('home'))->with('success', 'You are logged in.');
         } else {
-//            return back()->with('error', 'The provided credentials do not match our records.');
+    //            return back()->with('error', 'The provided credentials do not match our records.');
             return back()->withErrors(['email' => 'The provided credentials do not match our records.'])->onlyInput('email');
         }
-        
+
     }
-    
+
     public function logout(Request $request) : RedirectResponse
     {
         Auth::logout();

@@ -8,14 +8,31 @@
             <x-workopia-nav-link :active="request()->is('jobs')" url="/jobs" icon="briefcase">All Jobs</x-workopia-nav-link>
             @auth
                 <x-workopia-nav-link :active="request()->is('jobs/saved')" url="/jobs/saved">Saved Jobs</x-workopia-nav-link>
-                <x-workopia-nav-link :active="request()->is('dashboard')" url="/dashboard" icon="user-edit">Edit Profile</x-workopia-nav-link>
+                <x-workopia-button-link url="/jobs/create" icon="edit">Create job</x-workopia-button-link>
+                <!-- User Avatar -->
+                <div class="flex items-center space-x-3">
+                    <a href="{{ route('dashboard') }}">
+                    @if(Auth::user()->avatar)
+                        <img
+                            src="{{ asset('storage/' . Auth::user()->avatar) }}"
+                            alt="{{ Auth::user()->first_name }} {{ Auth::user()->last_name }}"
+                            class="w-10 h-10 rounded-full"
+                        />
+                    @else
+                        <img
+                            src="{{ asset('storage/avatars/default-avatar.png') }}"
+                            alt="{{ Auth::user()->first_name }} {{ Auth::user()->last_name }}"
+                            class="w-10 h-10 rounded-full"
+                        />
+                    @endif
+                    </a>
+                </div>
                 <form method="POST" action="{{ route('logout') }}">
                     @csrf
                     <button type="submit" class="hover:underline">
                         <i class="fa fa-sign-out"></i> Logout
                     </button>
                 </form>
-                <x-workopia-button-link url="/jobs/create" icon="edit">Create job</x-workopia-button-link>
             @else
                 <x-workopia-nav-link :active="request()->is('login')" url="/login">Login</x-workopia-nav-link>
                 <x-workopia-nav-link :active="request()->is('register')" url="/register">Register</x-workopia-nav-link>

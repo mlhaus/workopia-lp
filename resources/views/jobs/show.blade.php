@@ -19,7 +19,7 @@
                         <form method="POST"
                               action="{{ route('jobs.destroy', $job) }}"
                               onsubmit="return confirm('Are you sure you want to delete this job?')"
-                        
+
                         >
                             @csrf
                             @method('DELETE')
@@ -98,7 +98,7 @@
             <h3 class="text-xl text-center mb-4 font-bold">Company Info</h3>
             @if ($job->company_logo)
             <img
-                src="{{ getenv('APP_URL') }}/storage/{{$job->company_logo}}"
+                src="/storage/{{$job->company_logo}}"
                 alt="{{$job->company_name}}"
                 class="w-full rounded-lg mb-4 m-auto"
             />

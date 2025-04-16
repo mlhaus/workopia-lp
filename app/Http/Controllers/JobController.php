@@ -19,7 +19,7 @@ class JobController extends Controller
     public function index(): View
     {
         $title = 'Available Jobs';
-        $jobs = Job::all();
+        $jobs = Job::paginate(3);
         return view('jobs/index', compact('title', 'jobs'));
     }
 
@@ -86,7 +86,7 @@ class JobController extends Controller
     {
         // Check if the user is authorized
         $this->authorize('update', $job);
-        
+
         $title = 'Edit Single Job';
         return view('jobs.edit', compact('job', 'title'));
     }
@@ -146,6 +146,9 @@ class JobController extends Controller
             Storage::disk('public')->delete($job->company_logo);
         }
         $job->delete();
+        if(request()->query('from') === 'dashboard') {
+            return redirect()->route('dashboard')->with('success', 'Job listing deleted successfully!');
+        }
         return redirect()->route('jobs.index')->with('success', 'Job listing deleted successfully!');
     }
 }
