@@ -7,7 +7,7 @@
             <x-workopia-nav-link :active="request()->is('/')" icon="home">Home</x-workopia-nav-link>
             <x-workopia-nav-link :active="request()->is('jobs')" url="/jobs" icon="briefcase">All Jobs</x-workopia-nav-link>
             @auth
-                <x-workopia-nav-link :active="request()->is('jobs/saved')" url="/jobs/saved">Saved Jobs</x-workopia-nav-link>
+                <x-workopia-nav-link :active="request()->is('bookmarks')" url="/bookmarks">Bookmarked Jobs</x-workopia-nav-link>
                 <x-workopia-button-link url="/jobs/create" icon="edit">Create job</x-workopia-button-link>
                 <!-- User Avatar -->
                 <div class="flex items-center space-x-3">
@@ -52,7 +52,7 @@
         <x-workopia-nav-link :active="request()->is('/')" :mobile="true">Home</x-workopia-nav-link>
         <x-workopia-nav-link :active="request()->is('jobs')" url="/jobs" :mobile="true">All Jobs</x-workopia-nav-link>
         @auth
-            <x-workopia-nav-link :active="request()->is('jobs/saved')" url="/jobs/saved" :mobile="true">Saved Jobs</x-workopia-nav-link>
+            <x-workopia-nav-link :active="request()->is('bookmarks')" url="/bookmarks" :mobile="true">Bookmarked Jobs</x-workopia-nav-link>
             <x-workopia-nav-link :active="request()->is('dashboard')" url="/dashboard" icon="user-edit" :mobile="true">Edit Profile</x-workopia-nav-link>
             <form method="POST" action="{{ route('logout') }}">
                 @csrf
