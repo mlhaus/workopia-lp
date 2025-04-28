@@ -18,7 +18,7 @@ class DashboardController extends Controller
         // Get the user who is signed in
         $user = Auth::user();
         // Get that user's created jobs
-        $jobs = Job::where('user_id', $user->id)->get();
+        $jobs = Job::where('user_id', $user->id)->with('applicants')->get();
         $title = "User Dashboard";
         return view('dashboard.index', compact('user','jobs', 'title'));
     }

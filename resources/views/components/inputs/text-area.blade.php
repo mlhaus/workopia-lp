@@ -1,4 +1,10 @@
-@props(['id', 'name', 'label' => null, 'value' => '', 'placeholder' => ''])
+@props([
+    'id', 
+    'name', 
+    'label' => null, 
+    'value' => '', 
+    'placeholder' => '',
+    'required' => false])
 
 <div class="mb-4">
     @if($label)
@@ -11,6 +17,7 @@
         rows="7"
         class="w-full px-4 py-2 border rounded focus:outline-none @error($name) border-red-500 @enderror"
         placeholder="{{ $placeholder }}"
+        {{ $required ? 'required' : '' }}
     >
 {{ old($name, $value) }}</textarea
     >

@@ -77,7 +77,9 @@ class JobController extends Controller
     public function show(Job $job): View
     {
         $title = 'View Single Job';
-        return view('jobs.show', compact('job', 'title'));
+        // Get the user who is signed in
+        $user = Auth::user();
+        return view('jobs.show', compact('job', 'title', 'user'));
     }
 
     // @desc   Show the form for editing a job
