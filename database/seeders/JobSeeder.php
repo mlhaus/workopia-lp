@@ -19,10 +19,10 @@ class JobSeeder extends Seeder
         $jobListings = include database_path('seeders/data/job_listings.php');
 
         // Get the ID of the test user (see TestUserSeeder)
-        $testUserId = User::where('email', 'marc.hauschildt@kirkwood.edu')->value('id');
+        $testUserId = User::where('email', 'user@example.com')->value('id');
 
         // Get all other user IDs from the RandomUserSeeder
-        $userIds = User::where('email', '!=', 'marc.hauschildt@kirkwood.edu')->pluck('id')->toArray();
+        $userIds = User::where('email', '!=', 'user@example.com')->pluck('id')->toArray();
 
         // Initialize timestamp
         $timestamp = Carbon::now()->subDays(1); // One day ago

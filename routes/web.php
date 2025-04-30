@@ -8,6 +8,7 @@ use App\Http\Controllers\LoginController;
 use App\Http\Controllers\ProfileController;
 use App\Http\Controllers\RegisterController;
 use App\Http\Controllers\BookmarkController;
+use App\Http\Controllers\UserController;
 use Illuminate\Support\Facades\Route;
 
 Route::get('/', [HomeController::class, 'welcome'])->name('home'); //->middleware(LogRequest::class);
@@ -34,3 +35,6 @@ Route::middleware('auth')->group(function () {
 
 Route::post("/jobs/{job}/apply", [ApplicantController::class, 'store'])->name('applicants.store');
 Route::delete("/applicants/{applicant}", [ApplicantController::class, 'destroy'])->name('applicants.destroy')->middleware('auth');
+
+Route::get("/users", [UserController::class, 'index'])->name('users.index')->middleware("can:view-all-users");
+Route::delete("/users/{user}", [UserController::class, 'destroy'])->name('users.destroy')->middleware("can:delete-users");
